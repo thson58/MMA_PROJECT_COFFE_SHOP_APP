@@ -8,7 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
-import MapScreen from '../screens/MapScreen'; // Import MapScreen
+import MapScreen from '../screens/MapScreen'; // Đảm bảo đường dẫn đúng
 import CustomIcon from '../components/CustomIcon';
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +50,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <CustomIcon
-              name="home" // Sử dụng icon giống Home
+              name="home" // Sử dụng icon phù hợp cho Map
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
