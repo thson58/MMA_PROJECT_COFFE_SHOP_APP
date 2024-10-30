@@ -4,10 +4,11 @@ import { View, StyleSheet, ActivityIndicator, PermissionsAndroid, Platform, Aler
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import { COLORS } from '../theme/theme';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
-const MapScreen = () => {
-  const [region, setRegion] = useState(null);
-  const [storeLocation, setStoreLocation] = useState({
+const MapScreen: React.FC = () => {
+  const [region, setRegion] = useState<any>(null);
+  const [storeLocation] = useState({
     latitude: 21.028511, // Vĩ độ cửa hàng (ví dụ: Hà Nội)
     longitude: 105.804817, // Kinh độ cửa hàng
   });
@@ -15,30 +16,29 @@ const MapScreen = () => {
 
   useEffect(() => {
     const requestLocationPermission = async () => {
-      if (Platform.OS === 'android') {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Yêu cầu quyền truy cập vị trí',
-              message: 'Ứng dụng cần truy cập vị trí của bạn để hiển thị bản đồ.',
-              buttonNeutral: 'Hỏi lại sau',
-              buttonNegative: 'Hủy',
-              buttonPositive: 'OK',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      try {
+        let permission;
+        if (Platform.OS === 'android') {
+          permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+        } else {
+          permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+        }
+
+        const result = await check(permission);
+        if (result === RESULTS.GRANTED) {
+          getCurrentLocation();
+        } else {
+          const requestResult = await request(permission);
+          if (requestResult === RESULTS.GRANTED) {
             getCurrentLocation();
           } else {
             Alert.alert('Quyền truy cập vị trí bị từ chối');
             setLoading(false);
           }
-        } catch (err) {
-          console.warn(err);
-          setLoading(false);
         }
-      } else {
-        getCurrentLocation();
+      } catch (error) {
+        console.warn(error);
+        setLoading(false);
       }
     };
 
@@ -77,7 +77,7 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       <MapView
-        provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_GOOGLE} // Sử dụng Google Maps
         style={styles.map}
         region={region}
         showsUserLocation={true}
