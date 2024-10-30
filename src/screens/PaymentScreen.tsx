@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,9 +19,9 @@ import PaymentMethod from '../components/PaymentMethod';
 import PaymentFooter from '../components/PaymentFooter';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomIcon from '../components/CustomIcon';
-import {useStore} from '../store/store';
+import { useStore } from '../store/store';
 import PopUpAnimation from '../components/PopUpAnimation';
-// Danh sách các phương thức thanh toán khả dụng
+
 const PaymentList = [
   {
     name: 'Wallet',
@@ -45,24 +45,22 @@ const PaymentList = [
   },
 ];
 
-const PaymentScreen = ({navigation, route}: any) => {
-  // Truy cập các phương thức trong store
+const PaymentScreen = ({ navigation, route }: any) => {
   const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
   const addToOrderHistoryListFromCart = useStore(
     (state: any) => state.addToOrderHistoryListFromCart,
   );
 
-  const [paymentMode, setPaymentMode] = useState('Credit Card'); // Trạng thái để lưu phương thức thanh toán
-  const [showAnimation, setShowAnimation] = useState(false); // Trạng thái để điều khiển việc hiển thị animation
+  const [paymentMode, setPaymentMode] = useState('Credit Card');
+  const [showAnimation, setShowAnimation] = useState(false);
 
-  // Hàm xử lý sự kiện khi nhấn nút thanh toán
   const buttonPressHandler = () => {
-    setShowAnimation(true); // Hiển thị animation
-    addToOrderHistoryListFromCart(); // Thêm đơn hàng vào lịch sử
-    calculateCartPrice(); // Tính toán giá cart
+    setShowAnimation(true);
+    addToOrderHistoryListFromCart();
+    calculateCartPrice();
     setTimeout(() => {
-      setShowAnimation(false); // Ẩn animation sau 2 giây
-      navigation.navigate('History'); // Điều hướng đến màn hình lịch sử đơn hàng
+      setShowAnimation(false);
+      navigation.navigate('History');
     }, 2000);
   };
 
@@ -115,8 +113,8 @@ const PaymentScreen = ({navigation, route}: any) => {
               <Text style={styles.CreditCardTitle}>Credit Card</Text>
               <View style={styles.CreditCardBG}>
                 <LinearGradient
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 1}}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
                   style={styles.LinearGradientStyle}
                   colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}>
                   <View style={styles.CreditCardRow}>
@@ -176,7 +174,7 @@ const PaymentScreen = ({navigation, route}: any) => {
 
       <PaymentFooter
         buttonTitle={`Pay with ${paymentMode}`}
-        price={{price: route.params.amount, currency: '$'}}
+        price={{ price: route.params.amount, currency: '$' }}
         buttonPressHandler={buttonPressHandler}
       />
     </View>

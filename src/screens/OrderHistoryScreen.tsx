@@ -20,15 +20,12 @@ import HeaderBar from '../components/HeaderBar';
 import EmptyListAnimation from '../components/EmptyListAnimation';
 import PopUpAnimation from '../components/PopUpAnimation';
 import OrderHistoryCard from '../components/OrderHistoryCard';
+
 const OrderHistoryScreen = ({ navigation }: any) => {
-  // Lấy danh sách lịch sử đặt hàng từ store
   const OrderHistoryList = useStore((state: any) => state.OrderHistoryList);
-  // Lấy chiều cao của thanh tab dưới cùng
   const tabBarHeight = useBottomTabBarHeight();
-  // Trạng thái để điều khiển việc hiển thị animation
   const [showAnimation, setShowAnimation] = useState(false);
 
-  // Hàm điều hướng đến màn hình chi tiết của đơn hàng
   const navigationHandler = ({ index, id, type }: any) => {
     navigation.push('Details', {
       index,
@@ -37,10 +34,8 @@ const OrderHistoryScreen = ({ navigation }: any) => {
     });
   };
 
-  // Hàm xử lý sự kiện nhấn nút tải về
   const buttonPressHandler = () => {
-    setShowAnimation(true); // Hiển thị animation
-    // Sau 2 giây, ẩn animation
+    setShowAnimation(true);
     setTimeout(() => {
       setShowAnimation(false);
     }, 2000);
@@ -48,48 +43,48 @@ const OrderHistoryScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.ScreenContainer}>
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} /> {/* Thiết lập màu nền cho StatusBar */}
+      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
 
-      {showAnimation ? ( // Kiểm tra xem có cần hiển thị animation không
+      {showAnimation ? (
         <PopUpAnimation
           style={styles.LottieAnimation}
-          source={require('../lottie/download.json')} // Tải animation từ file
+          source={require('../lottie/download.json')}
         />
       ) : (
         <></>
       )}
 
       <ScrollView
-        showsVerticalScrollIndicator={false} // Ẩn thanh cuộn dọc
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ScrollViewFlex}>
         <View
           style={[styles.ScrollViewInnerView, { marginBottom: tabBarHeight }]}>
           <View style={styles.ItemContainer}>
-            <HeaderBar title="Order History" /> {/* Hiển thị tiêu đề "Order History" */}
+            <HeaderBar title="Order History" />
 
-            {OrderHistoryList.length == 0 ? ( // Kiểm tra nếu danh sách lịch sử đơn hàng trống
-              <EmptyListAnimation title={'No Order History'} /> // Hiển thị thông báo nếu không có đơn hàng
+            {OrderHistoryList.length == 0 ? (
+              <EmptyListAnimation title={'No Order History'} />
             ) : (
               <View style={styles.ListItemContainer}>
-                {OrderHistoryList.map((data: any, index: any) => ( // Lặp qua danh sách lịch sử đơn hàng
+                {OrderHistoryList.map((data: any, index: any) => (
                   <OrderHistoryCard
-                    key={index.toString()} // Khóa duy nhất cho mỗi đơn hàng
-                    navigationHandler={navigationHandler} // Hàm điều hướng khi nhấn vào đơn hàng
-                    CartList={data.CartList} // Danh sách sản phẩm trong đơn hàng
-                    CartListPrice={data.CartListPrice} // Tổng giá của đơn hàng
-                    OrderDate={data.OrderDate} // Ngày đặt hàng
+                    key={index.toString()}
+                    navigationHandler={navigationHandler}
+                    CartList={data.CartList}
+                    CartListPrice={data.CartListPrice}
+                    OrderDate={data.OrderDate}
                   />
                 ))}
               </View>
             )}
           </View>
-          {OrderHistoryList.length > 0 ? ( // Nếu có đơn hàng trong danh sách
+          {OrderHistoryList.length > 0 ? (
             <TouchableOpacity
-              style={styles.DownloadButton} // Nút tải về
+              style={styles.DownloadButton}
               onPress={() => {
-                buttonPressHandler(); // Gọi hàm xử lý khi nhấn nút
+                buttonPressHandler();
               }}>
-              <Text style={styles.ButtonText}>Download</Text> {/* Văn bản trên nút */}
+              <Text style={styles.ButtonText}>Download</Text>
             </TouchableOpacity>
           ) : (
             <></>
