@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, ImageProps} from 'react-native';
+import { StyleSheet, Text, View, ImageProps } from 'react-native';
 import React from 'react';
 import ImageBackgroundInfo from './ImageBackgroundInfo';
 import LinearGradient from 'react-native-linear-gradient';
@@ -56,8 +56,8 @@ const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({
         ToggleFavourite={ToggleFavouriteItem}
       />
       <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         style={styles.ContainerLinearGradient}>
         <Text style={styles.DescriptionTitle}>Description</Text>

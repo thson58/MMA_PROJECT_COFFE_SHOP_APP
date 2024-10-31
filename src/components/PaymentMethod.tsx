@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -36,8 +36,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
       ]}>
       {isIcon ? (
         <LinearGradient
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 1}}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           style={styles.LinearGradientWallet}>
           <View style={styles.WalletRow}>
@@ -52,8 +52,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
         </LinearGradient>
       ) : (
         <LinearGradient
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 1}}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           style={styles.LinearGradientRegular}>
           <Image source={icon} style={styles.PaymentImage} />
