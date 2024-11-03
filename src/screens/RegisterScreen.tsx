@@ -1,4 +1,4 @@
-// src/screens/LoginScreen.tsx
+// src/screens/RegisterScreen.tsx
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -12,40 +12,64 @@ import {
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types/types'; // Đảm bảo đường dẫn đúng
+import { RootStackParamList } from '../types/types'; // Import từ types.ts
 import { COLORS, FONTSIZE, FONTFAMILY, SPACING } from '../theme/theme';
 
 // Định nghĩa kiểu cho navigation prop
-type LoginScreenNavigationProp = StackNavigationProp<
+type RegisterScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Login'
+  'Register'
 >;
 
-const LoginScreen: React.FC = () => {
-  const navigation = useNavigation<LoginScreenNavigationProp>();
-  const [email, setEmail] = useState('admin@coffeeapp.com'); // Mặc định để thử nghiệm
-  const [password, setPassword] = useState('admin'); // Mặc định để thử nghiệm
+const RegisterScreen: React.FC = () => {
+  const navigation = useNavigation<RegisterScreenNavigationProp>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (email.trim() === '' || password.trim() === '') {
+  const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const handleRegister = () => {
+    if (email.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
       Alert.alert('Thông báo', 'Vui lòng nhập đầy đủ thông tin.');
       return;
     }
+
+    if (!validateEmail(email)) {
+      Alert.alert('Lỗi', 'Email không hợp lệ.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Lỗi', 'Mật khẩu và xác nhận mật khẩu không khớp.');
+      return;
+    }
+
+    if (password.length < 6) { // Kiểm tra độ mạnh của mật khẩu
+      Alert.alert('Lỗi', 'Mật khẩu phải có ít nhất 6 ký tự.');
+      return;
+    }
+
     setLoading(true);
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
         setLoading(false);
-        // Điều hướng đến TabNavigator sau khi đăng nhập thành công
-        navigation.navigate('Tab');
+        Alert.alert('Thành công', 'Đăng ký tài khoản thành công!');
+        navigation.navigate('Login');
       })
       .catch(error => {
         setLoading(false);
-        if (error.code === 'auth/user-not-found') {
-          Alert.alert('Lỗi', 'Không tìm thấy người dùng.');
-        } else if (error.code === 'auth/wrong-password') {
-          Alert.alert('Lỗi', 'Mật khẩu không đúng.');
+        if (error.code === 'auth/email-already-in-use') {
+          Alert.alert('Lỗi', 'Email đã được sử dụng.');
+        } else if (error.code === 'auth/invalid-email') {
+          Alert.alert('Lỗi', 'Email không hợp lệ.');
+        } else if (error.code === 'auth/weak-password') {
+          Alert.alert('Lỗi', 'Mật khẩu yếu. Vui lòng chọn mật khẩu khác.');
         } else {
           Alert.alert('Lỗi', error.message);
         }
@@ -54,7 +78,7 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Đăng Nhập</Text>
+      <Text style={styles.title}>Đăng Ký</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -72,25 +96,33 @@ const LoginScreen: React.FC = () => {
         onChangeText={text => setPassword(text)}
         secureTextEntry
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Xác nhận mật khẩu"
+        placeholderTextColor={COLORS.primaryLightGreyHex}
+        value={confirmPassword}
+        onChangeText={text => setConfirmPassword(text)}
+        secureTextEntry
+      />
       <TouchableOpacity
         style={styles.button}
-        onPress={handleLogin}
+        onPress={handleRegister}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator color={COLORS.primaryWhiteHex} />
         ) : (
-          <Text style={styles.buttonText}>Đăng Nhập</Text>
+          <Text style={styles.buttonText}>Đăng Ký</Text>
         )}
       </TouchableOpacity>
 
-      {/* Nút Đăng Ký */}
+      {/* Nút Quay Lại Đăng Nhập */}
       <TouchableOpacity
-        style={styles.registerButton}
-        onPress={() => navigation.navigate('Register')}
+        style={styles.loginButton}
+        onPress={() => navigation.navigate('Login')}
         disabled={loading}
       >
-        <Text style={styles.registerButtonText}>Bạn chưa có tài khoản? Đăng Ký</Text>
+        <Text style={styles.loginButtonText}>Bạn đã có tài khoản? Đăng Nhập</Text>
       </TouchableOpacity>
     </View>
   );
@@ -135,14 +167,14 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_16,
   },
-  registerButton: {
+  loginButton: {
     marginTop: SPACING.space_10,
   },
-  registerButtonText: {
+  loginButtonText: {
     color: COLORS.primaryOrangeHex,
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;

@@ -7,9 +7,10 @@ import DetailsScreen from './src/screens/DetailsScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import SplashScreen from 'react-native-splash-screen';
 import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen'; // Import RegisterScreen
 import auth from '@react-native-firebase/auth';
 import { MenuProvider } from 'react-native-popup-menu';
-import { RootStackParamList } from './src/types/types'; // Adjust the path as needed
+import { RootStackParamList } from './src/types/types'; // Import từ types.ts
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -56,12 +57,19 @@ const App = () => {
               {/* Remove 'Map' from Stack if it's handled within TabNavigator to avoid conflicts */}
             </>
           ) : (
-            // If not authenticated, show LoginScreen
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ animation: 'fade' }}
-            />
+            // If not authenticated, show Login and Register screens
+            <>
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ animation: 'fade' }}
+              />
+              <Stack.Screen
+                name="Register"
+                component={RegisterScreen}
+                options={{ animation: 'fade' }}
+              />
+            </>
           )}
         </Stack.Navigator>
       </NavigationContainer>

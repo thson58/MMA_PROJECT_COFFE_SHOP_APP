@@ -2,29 +2,28 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen'; // Import RegisterScreen
 import TabNavigator from './TabNavigator';
-
-// Define the type for your stack's routes
-export type RootStackParamList = {
-  Login: undefined;
-  Tab: undefined;
-};
+import { RootStackParamList } from '../types/types'; // Import từ types.ts
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen 
         name="Login" 
         component={LoginScreen} 
-        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Register" 
+        component={RegisterScreen} 
       />
       <Stack.Screen 
         name="Tab" 
         component={TabNavigator} 
-        options={{ headerShown: false }} 
       />
+      {/* Thêm các màn hình khác nếu cần */}
     </Stack.Navigator>
   );
 };
