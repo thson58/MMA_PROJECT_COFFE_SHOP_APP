@@ -8,10 +8,19 @@ import HomeScreen from '../screens/HomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
-import MapScreen from '../screens/MapScreen'; // Đảm bảo đường dẫn đúng
+import MapScreen from '../screens/MapScreen';
 import CustomIcon from '../components/CustomIcon';
 
-const Tab = createBottomTabNavigator();
+// Define the type for your tab's routes
+export type TabParamList = {
+  Home: undefined;
+  Map: undefined;
+  Cart: undefined;
+  Favorite: undefined;
+  History: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator = () => {
   return (
@@ -33,7 +42,7 @@ const TabNavigator = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               name="home"
               size={25}
@@ -48,9 +57,9 @@ const TabNavigator = () => {
         name="Map"
         component={MapScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
-              name="home" // Sử dụng icon phù hợp cho Map
+              name="map" // Changed to "map" for Map screen
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
@@ -63,7 +72,7 @@ const TabNavigator = () => {
         name="Cart"
         component={CartScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               name="cart"
               size={25}
@@ -78,7 +87,7 @@ const TabNavigator = () => {
         name="Favorite"
         component={FavoritesScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               name="like"
               size={25}
@@ -93,7 +102,7 @@ const TabNavigator = () => {
         name="History"
         component={OrderHistoryScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               name="bell"
               size={25}

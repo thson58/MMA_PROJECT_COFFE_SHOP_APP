@@ -11,16 +11,24 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigators/StackNavigator'; // Adjust the path as needed
 import { COLORS, FONTSIZE, FONTFAMILY, SPACING } from '../theme/theme';
 
+// Define the type for navigation prop
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
+
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('admin@coffeeapp.com'); // Mặc định cho dễ kiểm tra
-  const [password, setPassword] = useState('admin'); // Mặc định cho dễ kiểm tra
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const [email, setEmail] = useState('admin@coffeeapp.com'); // Default for testing
+  const [password, setPassword] = useState('admin'); // Default for testing
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
-    if (email === '' || password === '') {
+    if (email.trim() === '' || password.trim() === '') {
       Alert.alert('Thông báo', 'Vui lòng nhập đầy đủ thông tin.');
       return;
     }
@@ -29,8 +37,8 @@ const LoginScreen: React.FC = () => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         setLoading(false);
-        // Điều hướng tới màn hình Home sau khi đăng nhập thành công
-        navigation.navigate('Tab'); // Đảm bảo 'Tab' là tên của TabNavigator trong Navigation
+        // Navigate to TabNavigator after successful login
+        navigation.navigate('Tab');
       })
       .catch(error => {
         setLoading(false);
@@ -64,7 +72,11 @@ const LoginScreen: React.FC = () => {
         onChangeText={text => setPassword(text)}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={loading}
+      >
         {loading ? (
           <ActivityIndicator color={COLORS.primaryWhiteHex} />
         ) : (

@@ -1,25 +1,23 @@
-
-
 // App.tsx
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import TabNavigator from './src/navigators/TabNavigator';
 import DetailsScreen from './src/screens/DetailsScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import SplashScreen from 'react-native-splash-screen';
-import MapScreen from './src/screens/MapScreen';
-import LoginScreen from './src/screens/LoginScreen'; // Import LoginScreen
+import LoginScreen from './src/screens/LoginScreen';
 import auth from '@react-native-firebase/auth';
-import { MenuProvider } from 'react-native-popup-menu'; // Import MenuProvider
+import { MenuProvider } from 'react-native-popup-menu';
+import { RootStackParamList } from './src/types/types'; // Adjust the path as needed
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<any>(null);
 
-  // Hàm để xử lý khi auth state thay đổi
+  // Function to handle auth state changes
   const onAuthStateChanged = (user: any) => {
     setUser(user);
     if (initializing) setInitializing(false);
@@ -38,7 +36,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
-            // Nếu đã đăng nhập, hiển thị TabNavigator và các màn hình chính
+            // If authenticated, show TabNavigator and other main screens
             <>
               <Stack.Screen
                 name="Tab"
@@ -55,14 +53,10 @@ const App = () => {
                 component={PaymentScreen}
                 options={{ animation: 'slide_from_bottom' }}
               />
-              <Stack.Screen
-                name="Map"
-                component={MapScreen}
-                options={{ animation: 'slide_from_bottom' }}
-              />
+              {/* Remove 'Map' from Stack if it's handled within TabNavigator to avoid conflicts */}
             </>
           ) : (
-            // Nếu chưa đăng nhập, hiển thị LoginScreen
+            // If not authenticated, show LoginScreen
             <Stack.Screen
               name="Login"
               component={LoginScreen}
