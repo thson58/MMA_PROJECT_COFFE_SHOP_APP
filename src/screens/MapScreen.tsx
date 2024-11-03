@@ -1,16 +1,25 @@
-// src/screens/MapScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  ActivityIndicator, 
+  Alert, 
+  TouchableOpacity, 
+  Text, 
+  StatusBar,
+  Platform 
+} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import { COLORS } from '../theme/theme';
+import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import GradientBGIcon from '../components/GradientBGIcon'
 
-const MapScreen: React.FC = () => {
+const MapScreen = ({ navigation, route }: any) => {
   const [region, setRegion] = useState<any>(null);
   const [storeLocation] = useState({
-    latitude: 21.028511, // Vĩ độ cửa hàng (ví dụ: Hà Nội)
-    longitude: 105.804817, // Kinh độ cửa hàng
+    latitude: 21.028511,
+    longitude: 105.804817,
   });
   const [loading, setLoading] = useState(true);
 
@@ -75,35 +84,75 @@ const MapScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <MapView
-        provider={PROVIDER_GOOGLE} // Sử dụng Google Maps
-        style={styles.map}
-        region={region}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-      >
-        <Marker
-          coordinate={storeLocation}
-          title="Cửa Hàng"
-          description="Đây là vị trí của cửa hàng."
-        />
-      </MapView>
+    <View style={styles.ScreenContainer}>
+      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <View style={styles.HeaderContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.pop();
+          }}>
+          <GradientBGIcon
+            name="left"
+            color={COLORS.primaryLightGreyHex}
+            size={FONTSIZE.size_16}
+          />
+        </TouchableOpacity>
+        <Text style={styles.HeaderText}>Store Location</Text>
+        <View style={styles.EmptyView} />
+      </View>
+      
+      <View style={styles.MapContainer}>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={region}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+        >
+          <Marker
+            coordinate={storeLocation}
+            title="Cửa Hàng"
+            description="Đây là vị trí của cửa hàng."
+          />
+        </MapView>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  ScreenContainer: {
     flex: 1,
+    backgroundColor: COLORS.primaryBlackHex,
+  },
+  HeaderContainer: {
+    paddingHorizontal: SPACING.space_24,
+    paddingVertical: SPACING.space_15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  HeaderText: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_20,
+    color: COLORS.primaryWhiteHex,
+  },
+  EmptyView: {
+    height: SPACING.space_36,
+    width: SPACING.space_36,
+  },
+  MapContainer: {
+    flex: 1,
+    backgroundColor: COLORS.primaryBlackHex,
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
   },
   loader: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.primaryBlackHex,
   },
 });
 
