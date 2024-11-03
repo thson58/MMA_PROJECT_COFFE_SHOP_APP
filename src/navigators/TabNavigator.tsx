@@ -59,7 +59,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomIcon
-              name="map" // Changed to "map" for Map screen
+              name="like" // Changed to "map" for Map screen
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex

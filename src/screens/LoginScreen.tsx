@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    height: SPACING.space_12 * 3,
+    height: SPACING.space_16 * 3,
     borderColor: COLORS.primaryLightGreyHex,
     borderWidth: 1,
     borderRadius: SPACING.space_4,
