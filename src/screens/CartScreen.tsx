@@ -3,7 +3,6 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
 } from 'react-native';
@@ -15,7 +14,7 @@ import EmptyListAnimation from '../components/EmptyListAnimation';
 import PaymentFooter from '../components/PaymentFooter';
 import CartItem from '../components/CartItem';
 
-const CartScreen = ({navigation, route}: any) => {
+const CartScreen = ({navigation, _route}: any) => {
   const CartList = useStore((state: any) => state.CartList);
   const CartPrice = useStore((state: any) => state.CartPrice);
   const incrementCartItemQuantity = useStore(
@@ -40,6 +39,7 @@ const CartScreen = ({navigation, route}: any) => {
     decrementCartItemQuantity(id, size);
     calculateCartPrice();
   };
+
   return (
     <View style={styles.ScreenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -52,7 +52,7 @@ const CartScreen = ({navigation, route}: any) => {
           <View style={styles.ItemContainer}>
             <HeaderBar title="Cart" />
 
-            {CartList.length == 0 ? (
+            {CartList.length === 0 ? (
               <EmptyListAnimation title={'Cart is Empty'} />
             ) : (
               <View style={styles.ListItemContainer}>
@@ -87,15 +87,13 @@ const CartScreen = ({navigation, route}: any) => {
             )}
           </View>
 
-          {CartList.length != 0 ? (
+          {CartList.length !== 0 ? (
             <PaymentFooter
               buttonPressHandler={buttonPressHandler}
               buttonTitle="Pay"
               price={{price: CartPrice, currency: '$'}}
             />
-          ) : (
-            <></>
-          )}
+          ) : null}
         </View>
       </ScrollView>
     </View>

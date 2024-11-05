@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "324676896177",
-    "project_id": "coffeeshopapp-3dba5",
-    "storage_bucket": "coffeeshopapp-3dba5.firebasestorage.app"
+    "project_number": "580202288667",
+    "project_id": "triple-visitor-440202-k2",
+    "storage_bucket": "triple-visitor-440202-k2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:324676896177:android:c3fa21f870edf1997d2990",
+        "mobilesdk_app_id": "1:580202288667:android:58fcf5ce8e9f14434c0abe",
         "android_client_info": {
           "package_name": "com.coffee_shop_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "580202288667-ugbl1n3gvhg6ut51kdnboas5suudohbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBtRuILGeuEfhDPINchptPOWNxacf9bWzo"
+          "current_key": "AIzaSyDwlMPqqvTS6s-4bWv2-Usx4WeiDygfbWU"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "580202288667-ugbl1n3gvhg6ut51kdnboas5suudohbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

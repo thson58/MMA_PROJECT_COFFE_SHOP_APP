@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,22 +7,27 @@ import {
   TouchableOpacity,
   Text,
   StatusBar,
-  Platform
+  Platform,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
-import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import GradientBGIcon from '../components/GradientBGIcon'
+import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import GradientBGIcon from '../components/GradientBGIcon';
 
-const MapScreen = ({ navigation, route }: any) => {
-  const [region, setRegion] = useState<any>(null);
+const MapScreen = ({navigation}: any) => {
+  const [userLocation, setUserLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const [storeLocation] = useState({
-    latitude: 13.892457,
-    longitude: 109.092668,
+    latitude: 13.804187863448892,
+    longitude: 109.21916488080214,
   });
-  
+
   const [loading, setLoading] = useState(true);
+  const [isMapReady, setIsMapReady] = useState(false);
+  const mapRef = useRef<MapView>(null);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -55,13 +60,8 @@ const MapScreen = ({ navigation, route }: any) => {
     const getCurrentLocation = () => {
       Geolocation.getCurrentPosition(
         position => {
-          const { latitude, longitude } = position.coords;
-          setRegion({
-            latitude,
-            longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          });
+          const {latitude, longitude} = position.coords;
+          setUserLocation({latitude, longitude});
           setLoading(false);
         },
         error => {
@@ -69,12 +69,21 @@ const MapScreen = ({ navigation, route }: any) => {
           Alert.alert('Không thể lấy vị trí hiện tại');
           setLoading(false);
         },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
       );
     };
 
     requestLocationPermission();
   }, []);
+
+  useEffect(() => {
+    if (isMapReady && userLocation && mapRef.current) {
+      mapRef.current.fitToCoordinates([storeLocation, userLocation], {
+        edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+        animated: true,
+      });
+    }
+  }, [isMapReady, storeLocation, userLocation]);
 
   if (loading) {
     return (
@@ -91,7 +100,6 @@ const MapScreen = ({ navigation, route }: any) => {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Home');
-
           }}>
           <GradientBGIcon
             name="left"
@@ -105,15 +113,21 @@ const MapScreen = ({ navigation, route }: any) => {
 
       <View style={styles.MapContainer}>
         <MapView
+          ref={mapRef}
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          region={region}
           showsUserLocation={true}
           showsMyLocationButton={true}
-        >
+          onMapReady={() => setIsMapReady(true)}
+          initialRegion={{
+            latitude: storeLocation.latitude,
+            longitude: storeLocation.longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          }}>
           <Marker
             coordinate={storeLocation}
-            title="Cửa Hàng"
+            title="Cửa Hàng Coffee"
             description="Đây là vị trí của cửa hàng."
           />
         </MapView>

@@ -1,7 +1,5 @@
 // src/types/types.ts
-
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 // Define the type for your Tab Navigator
 export type TabParamList = {
@@ -23,8 +21,23 @@ export type RootStackParamList = {
 };
 
 // Define screen props for individual screens if needed
-export type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
-export type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, 'Register'>; // Thêm RegisterScreenProps
-export type TabNavigatorProps = NativeStackScreenProps<RootStackParamList, 'Tab'>;
-export type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
-export type PaymentScreenProps = NativeStackScreenProps<RootStackParamList, 'Payment'>;
+export type LoginScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Login'
+>;
+export type RegisterScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Register'
+>; // Thêm RegisterScreenProps
+export type TabNavigatorProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Tab'
+>;
+export type DetailsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Details'
+>;
+export type PaymentScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Payment'
+>;

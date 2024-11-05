@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageProps, Image } from 'react-native';
+import {StyleSheet, Text, View, ImageProps, Image} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -28,8 +28,8 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
 }) => {
   return (
     <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
       style={styles.CardLinearGradient}>
       <View style={styles.CardInfoContainer}>
