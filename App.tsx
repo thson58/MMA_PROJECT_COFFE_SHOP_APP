@@ -37,7 +37,6 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
-            // If authenticated, show TabNavigator and other main screens
             <>
               <Stack.Screen
                 name="Tab"
@@ -54,10 +53,8 @@ const App = () => {
                 component={PaymentScreen}
                 options={{ animation: 'slide_from_bottom' }}
               />
-              {/* Remove 'Map' from Stack if it's handled within TabNavigator to avoid conflicts */}
             </>
           ) : (
-            // If not authenticated, show Login and Register screens
             <>
               <Stack.Screen
                 name="Login"
