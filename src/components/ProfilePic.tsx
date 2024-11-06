@@ -3,9 +3,16 @@ import React from 'react';
 import { StyleSheet, Image, View, Alert } from 'react-native';
 import { COLORS, SPACING } from '../theme/theme';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types/types';
 import auth from '@react-native-firebase/auth';
 
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Tab'>;
+
 const ProfilePic = () => {
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
   const handleLogout = () => {
     auth()
       .signOut()
@@ -28,6 +35,7 @@ const ProfilePic = () => {
         </View>
       </MenuTrigger>
       <MenuOptions>
+        <MenuOption onSelect={() => navigation.navigate('Profile')} text="Thông tin cá nhân" />
         <MenuOption onSelect={handleLogout} text="Đăng Xuất" />
       </MenuOptions>
     </Menu>

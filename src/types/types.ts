@@ -1,43 +1,27 @@
 // src/types/types.ts
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-// Define the type for your Tab Navigator
 export type TabParamList = {
   Home: undefined;
   Map: undefined;
   Cart: undefined;
   Favorite: undefined;
   History: undefined;
+  Profile: undefined;
 };
 
-// Define the type for your Stack Navigator
 export type RootStackParamList = {
   Login: undefined;
-  Register: undefined; // Thêm Register vào đây
+  Register: undefined;
   Tab: undefined;
   Details: undefined;
   Payment: undefined;
-  // Thêm các màn hình khác nếu cần
+  Profile: undefined;
 };
 
-// Define screen props for individual screens if needed
-export type LoginScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Login'
->;
-export type RegisterScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Register'
->; // Thêm RegisterScreenProps
-export type TabNavigatorProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Tab'
->;
-export type DetailsScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Details'
->;
-export type PaymentScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Payment'
->;
+export type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
+export type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, 'Register'>;
+export type TabNavigatorProps = NativeStackScreenProps<RootStackParamList, 'Tab'>;
+export type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
+export type PaymentScreenProps = NativeStackScreenProps<RootStackParamList, 'Payment'>;
+export type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;

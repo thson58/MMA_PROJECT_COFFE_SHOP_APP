@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,22 +9,18 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import GradientBGIcon from '../components/GradientBGIcon';
 
-const MapScreen = ({navigation}: any) => {
-  const [userLocation, setUserLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
+const MapScreen = ({ navigation }: any) => {
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [storeLocation] = useState({
     latitude: 13.804187863448892,
     longitude: 109.21916488080214,
   });
-
   const [loading, setLoading] = useState(true);
   const [isMapReady, setIsMapReady] = useState(false);
   const mapRef = useRef<MapView>(null);
@@ -60,8 +56,8 @@ const MapScreen = ({navigation}: any) => {
     const getCurrentLocation = () => {
       Geolocation.getCurrentPosition(
         position => {
-          const {latitude, longitude} = position.coords;
-          setUserLocation({latitude, longitude});
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
           setLoading(false);
         },
         error => {
@@ -69,7 +65,7 @@ const MapScreen = ({navigation}: any) => {
           Alert.alert('Không thể lấy vị trí hiện tại');
           setLoading(false);
         },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
       );
     };
 
@@ -79,11 +75,11 @@ const MapScreen = ({navigation}: any) => {
   useEffect(() => {
     if (isMapReady && userLocation && mapRef.current) {
       mapRef.current.fitToCoordinates([storeLocation, userLocation], {
-        edgePadding: {top: 50, right: 50, bottom: 50, left: 50},
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
         animated: true,
       });
     }
-  }, [isMapReady, storeLocation, userLocation]);
+  }, [isMapReady, userLocation]);
 
   if (loading) {
     return (
@@ -127,7 +123,7 @@ const MapScreen = ({navigation}: any) => {
           }}>
           <Marker
             coordinate={storeLocation}
-            title="Cửa Hàng Coffee"
+            title="Cửa Hàng"
             description="Đây là vị trí của cửa hàng."
           />
         </MapView>

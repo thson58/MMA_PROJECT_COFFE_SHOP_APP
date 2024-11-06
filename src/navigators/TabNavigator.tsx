@@ -9,16 +9,9 @@ import FavoritesScreen from '../screens/FavoritesScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
 import MapScreen from '../screens/MapScreen';
+import ProfileScreen from '../screens/ProfileScreen'; // Import ProfileScreen
 import CustomIcon from '../components/CustomIcon';
-
-// Define the type for your tab's routes
-export type TabParamList = {
-  Home: undefined;
-  Map: undefined;
-  Cart: undefined;
-  Favorite: undefined;
-  History: undefined;
-};
+import {TabParamList} from '../types/types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -59,7 +52,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
-              name="like" // Changed to "map" for Map screen
+              name="like"
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
@@ -105,6 +98,21 @@ const TabNavigator = () => {
           tabBarIcon: ({focused}) => (
             <CustomIcon
               name="bell"
+              size={25}
+              color={
+                focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <CustomIcon
+              name="home"
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
