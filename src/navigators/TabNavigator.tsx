@@ -52,7 +52,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
-              name="like"
+              name="location"
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
@@ -112,7 +112,7 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
-              name="home"
+              name="add"
               size={25}
               color={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex

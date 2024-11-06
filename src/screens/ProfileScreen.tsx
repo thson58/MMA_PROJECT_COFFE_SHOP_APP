@@ -92,7 +92,7 @@ const ProfileScreen: React.FC = () => {
         <Text style={styles.sectionTitle}>Thông tin cá nhân</Text>
         
         <View style={styles.infoItem}>
-          <CustomIcon name="email" size={24} color={COLORS.primaryOrangeHex} />
+          <CustomIcon name="search" size={24} color={COLORS.primaryOrangeHex} />
           <View style={styles.infoContent}>
             <Text style={styles.infoLabel}>Email</Text>
             <Text style={styles.infoValue}>{userData?.email || 'Chưa có'}</Text>
@@ -100,7 +100,7 @@ const ProfileScreen: React.FC = () => {
         </View>
 
         <View style={styles.infoItem}>
-          <CustomIcon name="phone" size={24} color={COLORS.primaryOrangeHex} />
+          <CustomIcon name="like" size={24} color={COLORS.primaryOrangeHex} />
           <View style={styles.infoContent}>
             <Text style={styles.infoLabel}>Số điện thoại</Text>
             <Text style={styles.infoValue}>
